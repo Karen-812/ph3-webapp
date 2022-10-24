@@ -25,6 +25,9 @@ RUN apt-get update && \
   composer config -g process-timeout 3600 && \
   composer config -g repos.packagist composer https://packagist.org
 
+RUN apt-get update && apt-get -y install sudo && \
+  apt-get -y install nodejs npm
+
 COPY ./usr/local/etc/php/php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /work/backend
