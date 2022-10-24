@@ -8,6 +8,9 @@ use Illuminate\Support\Facade;
 
 class InputDataController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     public function index(Request $request)
     {
         $current_year = date('Y');

@@ -15,9 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('index', 'InputDataController@index');
-
-
+// ホーム画面
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'InputDataController@index')->name('home');
+Route::get('/logout', function () {
+    Auth::logout();
+    return view('welcome');
+});
