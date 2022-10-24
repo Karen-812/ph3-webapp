@@ -23,6 +23,7 @@
     <!-- <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
 <head>
 
+<body>
 <header class="header inner">
         <h1>
             <img src="{{asset('/posse_logo.jpeg')}}" alt="POSSE">
@@ -31,7 +32,7 @@
         <div id="header_button" class="button" onclick="open_modal()">
             <p>記録・投稿</p>
         </div>
-    </header>
+</header>
 
     <div class="container">
         <section class="first_section">
@@ -39,12 +40,7 @@
                 <div class="card period">
                     Today
                     <p class="number">
-                        <?php 
-                            // foreach ($hours_par_day as $hour_par_day) {
-                            // echo $hour_par_day['hours'];
-                            echo 'とりま';
-                            // };
-                        ?>
+                        @yield('Today')
                     </p>
                     <p class="unit">hour</p>
                 </div>
@@ -52,12 +48,7 @@
                 <div class="card period">
                     Month
                     <p class="number">
-                        <?php 
-                        // foreach ($hours_par_month as $hour_par_month) {
-                        //     echo $hour_par_month['total'];
-                        // }; 
-                        echo 'とりま2';
-                        ?>
+                        @yield('Month')
                     </p>
                     <p class="unit">hour</p>
                 </div>
@@ -65,12 +56,7 @@
                 <div class="card period">
                     Total
                     <p class="number">
-                        <?php 
-                        // foreach ($hours_total as $hour_total) {
-                        // echo $hour_total['total2'];
-                        // }; 
-                        echo 'とりま3';
-                        ?>
+                    @yield('Total')
                     </p>
                     <p class="unit">hour</p>
                 </div>
@@ -106,4 +92,9 @@
             <p>記録・投稿</p>
         </div>
     </footer>
+    
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+</body>
 </html>
