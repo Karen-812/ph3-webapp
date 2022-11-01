@@ -10,7 +10,7 @@
     <!-- font awesome, calender -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
 
     <!-- stylesheet -->
     <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
@@ -105,9 +105,9 @@
 
 <script type="text/javascript">
     let calender = document.getElementById("calender");
-    let fp = flatpickr(calender, {
-        dateFormat: "Y年n月j日", // フォーマットの変更
-    });
+    // let fp = flatpickr(calender, {
+    //     dateFormat: "Y年n月j日", // フォーマットの変更
+    // });
 
     function open_modal() {
         document.getElementById("modal_content").className = "modal_open";
@@ -152,17 +152,18 @@
         data.addColumn("number", "Time");
 
         // JSで整形！
-        var obj = <?php echo $c; ?>
+        var bar_data = <?php echo $bar_chart_data; ?>;
+        console.log(bar_data);
 
-        let a = [];
-        obj.forEach(function(value, index) {
+        let bar_data_array = [];
+        bar_data.forEach(function(value, index) {
             let number = Number(value.date.substr(8));
-            let value_number = Number(value.h);
-            a.push([number, value_number])
+            let value_number = Number(value.total_hour);
+            bar_data_array.push([number, value_number])
         });
 
-        console.log(a);
-        data.addRows(a);
+        console.log(bar_data_array);
+        data.addRows(bar_data_array);
 
         var options = {
             title: "",
@@ -219,7 +220,7 @@
     function drawChart() {
 
         // JSで整形！
-        var obj = <?php echo $c4; ?>;
+        //var obj = 
 
         let b = [];
         b.push(
@@ -281,7 +282,7 @@
 
     function drawChart2() {
         // JSで整形！
-        var obj = <?php echo $c5; ?>;
+        //var obj = 
 
         let c = [];
         c.push(
