@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\InputData;
 use Illuminate\Support\Facade;
+// Carbon
+// require_once __DIR__ . '/vendor/autoload.php';
+use Carbon\Carbon;
 
 class InputDataController extends Controller
 {
@@ -13,9 +16,10 @@ class InputDataController extends Controller
     }
     public function index(Request $request)
     {
-        $current_year = date('Y');
-        $current_month = date('m');
-        $today = date('d');
+        // 現在の時刻からインスタンスを生成
+        $current_year = Carbon::now()->format('Y');
+        $current_month = Carbon::now()->format('m'); 
+        $today = Carbon::now()->format('d');
 
         // トータル時間
         $total_sum = InputData::sum('hours');
