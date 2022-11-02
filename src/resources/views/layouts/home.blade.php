@@ -153,7 +153,6 @@
 
         // JSで整形！
         var bar_data = <?php echo $bar_chart_data; ?>;
-        console.log(bar_data);
 
         let bar_data_array = [];
         bar_data.forEach(function(value, index) {
@@ -220,23 +219,24 @@
     function drawChart() {
 
         // JSで整形！
-        //var obj = 
+        var doughnut_data = <?php echo $doughnut_chart_data; ?>;
+        console.log(doughnut_data);
 
-        let b = [];
-        b.push(
+        let doughnut_data_array = [];
+        doughnut_data_array.push(
             ["language", "portion"]
         );
 
-        obj.forEach(function(value, index) {
+        doughnut_data.forEach(function(value, index) {
             // let lang_number = value.languages.toString();
             let lang_number = value.language;
             let time_number = Math.floor(value.lang_time);
-            b.push([lang_number, time_number]);
+            doughnut_data_array.push([lang_number, time_number]);
         });
 
-        console.log([b]);
+        console.log([doughnut_data_array]);
         // data.addRows([b]); arrayToDataTable と DataTableの違い
-        var data = new google.visualization.arrayToDataTable(b);
+        var data = new google.visualization.arrayToDataTable(doughnut_data_array);
 
         var options = {
             title: "",
@@ -282,22 +282,23 @@
 
     function drawChart2() {
         // JSで整形！
-        //var obj = 
+        var doughnut_data2 = <?php echo $doughnut_chart_data2; ?>;
+        console.log(doughnut_data2);
 
-        let c = [];
-        c.push(
+        let doughnut_data_array2 = [];
+        doughnut_data_array2.push(
             ["content", "portion"]
         );
 
-        obj.forEach(function(value, index) {
+        doughnut_data2.forEach(function(value, index) {
             // let cont_number = value.contents.toString();
             let cont_number = value.content;
             let time_number = Math.floor(value.cont_time);
-            c.push([cont_number, time_number]);
+            doughnut_data_array2.push([cont_number, time_number]);
         });
 
-        console.log([c]);
-        var data = new google.visualization.arrayToDataTable(c);
+        console.log([doughnut_data_array2]);
+        var data = new google.visualization.arrayToDataTable(doughnut_data_array2);
 
         var options = {
             title: "",
