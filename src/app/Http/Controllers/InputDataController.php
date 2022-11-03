@@ -36,19 +36,20 @@ class InputDataController extends Controller
         // PHPである程度整える →エンコードもあり
         */
 
-        // 棒グラフ  日毎の勉強時間をGroupByで集計
-        // $chart_day_prepare = $pdo->prepare(
-        //     'SELECT `date` , SUM(`hours`) AS h FROM input_data WHERE `date` LIKE :search GROUP BY `date`'
-        // );
-        // $chart_day_prepare->execute(['search' => $search]);
-        // $charts_day = $chart_day_prepare->fetchAll();
-
+        /* こっちできなかった、、なんで？
         $chart_day = InputData::whereYear('date', $current_year)->whereMonth('date', $current_month)
-        ->selectRaw('sum(hours) as `h`, date')
+        ->sum('hours');
+        ->select('sum(hours) as h')
         ->groupByRaw('date')
         ->get();
+        */
 
-        $c = json_encode($chart_day);
+        $chart_day = InputData::selectRaw("sum(hours) as total_hour, date")
+        ->whereYear('date', $current_year)->whereMonth('date', $current_month)
+        ->groupBy("date")->get();
+
+        $bar_chart_data = json_encode($chart_day);
+
 
         // ドーナツグラフ1  言語毎の勉強時間
             /*
@@ -76,13 +77,12 @@ class InputDataController extends Controller
         $hours_by_lang = $lang_prepare->fetchAll();
         */
 
-        // 直す🌱🌱🌱
-        $chart_language = InputData::whereYear('date', $current_year)->whereMonth('date', $current_month)
-        ->selectRaw('languages, (100.0 * sum(hours) / SUM(hours) AS lang_time')
-        ->groupByRaw('languages')
-        ->get();
+        $chart_language = InputData::selectRaw("(100.0 * SUM(`hours`) / (SELECT SUM(`hours`) FROM input_data) ) AS lang_time, `languages`")
+        ->whereYear('date', $current_year)->whereMonth('date', $current_month)
+        ->groupBy("languages")->get();
 
-        $c2 = json_encode($chart_language);
+        $doughnut_chart_data = json_encode($chart_language);
+        // dd($doughnut_chart_data);
 
 
         /* IDと学習言語名紐付け
@@ -100,7 +100,7 @@ class InputDataController extends Controller
         $hours_by_test = $test_prepare->fetchAll();
         */
 
-        $c4 = json_encode($hours_by_test);
+        // $c4 = json_encode($hours_by_test);
 
 
 
@@ -115,15 +115,15 @@ class InputDataController extends Controller
             */
 
         // GROUP BY 使って集計
-        $cont_prepare = $pdo->prepare(
-            'SELECT `contents` , (100.0 * SUM(`hours`) / (SELECT SUM(`hours`) FROM input_data) ) AS cont_time
-            FROM input_data WHERE `date` LIKE :search 
-            GROUP BY `contents`'
-        );
-        $cont_prepare->execute(['search' => $search]);
-        $hours_by_cont = $cont_prepare->fetchAll();
+        // $cont_prepare = $pdo->prepare(
+        //     'SELECT `contents` , (100.0 * SUM(`hours`) / (SELECT SUM(`hours`) FROM input_data) ) AS cont_time
+        //     FROM input_data WHERE `date` LIKE :search 
+        //     GROUP BY `contents`'
+        // );
+        // $cont_prepare->execute(['search' => $search]);
+        // $hours_by_cont = $cont_prepare->fetchAll();
 
-        $c3 = json_encode($hours_by_cont);
+        // $c3 = json_encode($hours_by_cont);
 
         /* IDと学習言語名紐付け
         $test_prepare = $pdo->prepare(
@@ -139,7 +139,12 @@ class InputDataController extends Controller
         $hours_by_test2 = $test_prepare->fetchAll();
         */
 
-        $c5 = json_encode($hours_by_test2);
-        return view('home', compact('total_sum', 'month_sum', 'today_sum', 'c'));
+        $chart_content = InputData::selectRaw("(100.0 * SUM(`hours`) / (SELECT SUM(`hours`) FROM input_data) ) AS cont_time, `contents`")
+        ->whereYear('date', $current_year)->whereMonth('date', $current_month)
+        ->groupBy("contents")->get();
+
+        $doughnut_chart_data2 = json_encode($chart_content);
+        // dd($doughnut_chart_data2);
+        return view('home', compact('total_sum', 'month_sum', 'today_sum', 'bar_chart_data', 'doughnut_chart_data', 'doughnut_chart_data2'));
     }
 }

@@ -10,7 +10,7 @@
     <!-- font awesome, calender -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
 
     <!-- stylesheet -->
     <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
@@ -105,9 +105,9 @@
 
 <script type="text/javascript">
     let calender = document.getElementById("calender");
-    let fp = flatpickr(calender, {
-        dateFormat: "Y年n月j日", // フォーマットの変更
-    });
+    // let fp = flatpickr(calender, {
+    //     dateFormat: "Y年n月j日", // フォーマットの変更
+    // });
 
     function open_modal() {
         document.getElementById("modal_content").className = "modal_open";
@@ -152,17 +152,17 @@
         data.addColumn("number", "Time");
 
         // JSで整形！
-        var obj = <?php echo $c; ?>
+        var bar_data = <?php echo $bar_chart_data; ?>;
 
-        let a = [];
-        obj.forEach(function(value, index) {
+        let bar_data_array = [];
+        bar_data.forEach(function(value, index) {
             let number = Number(value.date.substr(8));
-            let value_number = Number(value.h);
-            a.push([number, value_number])
+            let value_number = Number(value.total_hour);
+            bar_data_array.push([number, value_number])
         });
 
-        console.log(a);
-        data.addRows(a);
+        console.log(bar_data_array);
+        data.addRows(bar_data_array);
 
         var options = {
             title: "",
@@ -219,23 +219,24 @@
     function drawChart() {
 
         // JSで整形！
-        var obj = <?php echo $c4; ?>;
+        var doughnut_data = <?php echo $doughnut_chart_data; ?>;
+        console.log(doughnut_data);
 
-        let b = [];
-        b.push(
+        let doughnut_data_array = [];
+        doughnut_data_array.push(
             ["language", "portion"]
         );
 
-        obj.forEach(function(value, index) {
+        doughnut_data.forEach(function(value, index) {
             // let lang_number = value.languages.toString();
             let lang_number = value.language;
             let time_number = Math.floor(value.lang_time);
-            b.push([lang_number, time_number]);
+            doughnut_data_array.push([lang_number, time_number]);
         });
 
-        console.log([b]);
+        console.log([doughnut_data_array]);
         // data.addRows([b]); arrayToDataTable と DataTableの違い
-        var data = new google.visualization.arrayToDataTable(b);
+        var data = new google.visualization.arrayToDataTable(doughnut_data_array);
 
         var options = {
             title: "",
@@ -281,22 +282,23 @@
 
     function drawChart2() {
         // JSで整形！
-        var obj = <?php echo $c5; ?>;
+        var doughnut_data2 = <?php echo $doughnut_chart_data2; ?>;
+        console.log(doughnut_data2);
 
-        let c = [];
-        c.push(
+        let doughnut_data_array2 = [];
+        doughnut_data_array2.push(
             ["content", "portion"]
         );
 
-        obj.forEach(function(value, index) {
+        doughnut_data2.forEach(function(value, index) {
             // let cont_number = value.contents.toString();
             let cont_number = value.content;
             let time_number = Math.floor(value.cont_time);
-            c.push([cont_number, time_number]);
+            doughnut_data_array2.push([cont_number, time_number]);
         });
 
-        console.log([c]);
-        var data = new google.visualization.arrayToDataTable(c);
+        console.log([doughnut_data_array2]);
+        var data = new google.visualization.arrayToDataTable(doughnut_data_array2);
 
         var options = {
             title: "",
