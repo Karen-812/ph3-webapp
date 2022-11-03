@@ -22,3 +22,16 @@ Route::get('/logout', function () {
     Auth::logout();
     return view('welcome');
 });
+
+// メール送信
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
+
+Route::get('/testmail', function(){
+    Mail::to('test@example.com')->send(new TestMail);
+    return 'メール送信完了';
+});
+
+// ホーム画面
+Route::get('/test', 'TestController@index');
+
